@@ -1,7 +1,22 @@
 services:
-  db:
-    image: postgres:latest
+  postgres:
+    image: postgres:16.1-bullseye
+    restart: unless-stopped
+    container_name: ${NOME_APLICACAO}-db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: ${NOME_APLICACAO}
+      POSTGRES_USER: ${NOME_APLICACAO}
+    volumes:
+      - ./data/postgresql-${INFRA}-${INFRA_NUM}:/var/lib/postgresql/data
+
+  pgadmin4:
+    user: "${UID}:${GID}"
+    image: dpage/pgadmin4:8.0
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${NOME_APLICACAO}@ccc.com
+      PGADMIN_DEFAULT_PASSWORD: ${NOME_APLICACAO}
+    volumes:
+      - ./data/pgadmin${INFRA_NUM:+-$INFRA_NUM}:/var/lib/pgadmin
     ports:
-      - "5432:5432"
-    env_file:
-      - variaveis.env
+      - '8082:80'
