@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: ${NOME_APLICACAO}
       POSTGRES_USER: ${NOME_APLICACAO}
     volumes:
-      - ./data/postgresql-${INFRA}-${INFRA_NUM}:/var/lib/postgresql/data
+      - ./data/postgresql:/var/lib/postgresql/data
 
   pgadmin4:
     user: "${UID}:${GID}"
@@ -17,6 +17,6 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${NOME_APLICACAO}@ccc.com
       PGADMIN_DEFAULT_PASSWORD: ${NOME_APLICACAO}
     volumes:
-      - ./data/pgadmin${INFRA_NUM:+-$INFRA_NUM}:/var/lib/pgadmin
+      - ./data/pgadmin:/var/lib/pgadmin
     ports:
       - '8082:80'
